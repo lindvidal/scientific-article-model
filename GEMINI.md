@@ -27,4 +27,4 @@ Agents must follow the modular rules in `.agents/rules/` and `.agents/AGENTS.md`
 - **Planning Mode & Dependencies:** Create a written plan before substantive multi-file edits. Whenever adding third-party Python packages, update both `requirements.txt` and `README.md` together.
 
 ## 5. Interactive Companion Course
-Open `class/index.html` in any browser for an offline, 7-module interactive class explaining how to combine AI agents, rules, and skills to accelerate high-rigor scientific production.
+Read `class/README.md` for the GitHub-native 7-module course (or open `class/index.html` in any browser for the offline interactive UI) explaining how to combine AI agents, rules, and skills to accelerate high-rigor scientific production.

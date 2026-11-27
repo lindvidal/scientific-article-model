@@ -1,6 +1,6 @@
 # Scientific Article Model (Q1 Research & AI Workflow Template)
 
-A domain-agnostic, reproducible scientific repository template combining structured computational phases, **Q1 manuscript & Elsevier figure QA automation**, **anti-hallucination citation verification**, and an **offline interactive HTML class** ([class/index.html](class/index.html)).
+A domain-agnostic, reproducible scientific repository template combining structured computational phases, **Q1 manuscript & Elsevier figure QA automation**, **anti-hallucination citation verification**, and a **7-module interactive AI production class** ([class/README.md](class/README.md) on GitHub &bull; [class/index.html](class/index.html) offline).
 
 ## Quick Start
 
@@ -11,7 +11,7 @@ A domain-agnostic, reproducible scientific repository template combining structu
    .venv\Scripts\activate
    pip install -r requirements.txt
    ```
-3. **Launch the Interactive HTML Class:** Open `class/index.html` directly in Chrome, Edge, or Firefox (works 100% offline).
+3. **Open the AI Scientific Production Class:** Read [class/README.md](class/README.md) natively on GitHub, or open [class/index.html](class/index.html) in any browser for offline/GitHub Pages mode.
 4. **Run the QA Suite:**
    ```powershell
    python .agents/skills/manuscript_qa/scripts/validate_manuscript.py --strict
@@ -28,7 +28,9 @@ Scientific-Article-Model/
 ├── .env.example                           # Environment path & seed template
 ├── requirements.txt                       # Mirrored Python dependencies
 ├── class/
-│   └── index.html                         # 7-module interactive HTML class (offline)
+│   ├── README.md                          # 7-module interactive class (GitHub-native Markdown)
+│   ├── assets/okabe_ito_palette.svg       # Inline vector palette swatch for GitHub viewer
+│   └── index.html                         # 7-module interactive HTML class (offline / GitHub Pages)
 ├── .agents/
 │   ├── AGENTS.md                          # Notebook bootstrap & agent standard
 │   ├── rules/                             # literature.md, visualization.md, git_workflow.md
