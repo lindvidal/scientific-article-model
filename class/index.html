@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI-Assisted Q1 Scientific Production — Interactive Masterclass</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --surface: #ffffff;
+      --surface-alt: #f0f3f8;
+      --text: #1b2430;
+      --text-muted: #526071;
+      --border: #dce3ec;
+      --accent: #0072b2;
+      --accent-soft: #e6f2fa;
+      --green: #009e73;
+      --orange: #d55e00;
+      --amber: #e69f00;
+      --purple: #cc79a7;
+      --del-bg: #ffebee;
+      --del-fg: #c62828;
+      --mark-bg: #fff176;
+      --mark-fg: #111111;
+      --code-bg: #151b23;
+      --code-fg: #e6edf3;
+      --shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+      --radius: 10px;
+      --sidebar-w: 280px;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0f141b;
+      --surface: #161d27;
+      --surface-alt: #1e2734;
+      --text: #e6edf3;
+      --text-muted: #9aa7b8;
+      --border: #2a3544;
+      --accent: #56b4e9;
+      --accent-soft: rgba(86, 180, 233, 0.14);
+      --green: #26c699;
+      --orange: #ff8a50;
+      --amber: #f0c040;
+      --del-bg: rgba(198, 40, 40, 0.25);
+      --del-fg: #ff8a80;
+      --mark-bg: #fff176;
+      --mark-fg: #111111;
+      --code-bg: #0b0f14;
+      --code-fg: #e6edf3;
+      --shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Progress Bar */
+    .progress-bar-wrap {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: transparent;
+      z-index: 1000;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--green));
+      transition: width 0.15s ease-out;
+    }
+
+    /* Sidebar */
+    aside.sidebar {
+      width: var(--sidebar-w);
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 1.25rem 1rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      z-index: 500;
+    }
+
+    .brand {
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      margin-bottom: 0.4rem;
+    }
+    .brand h1 {
+      font-size: 1.05rem;
+      line-height: 1.3;
+      margin: 0;
+    }
+    .brand p {
+      margin: 0.25rem 0 0;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .nav-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .nav-list a {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.52rem 0.65rem;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-list a:hover,
+    .nav-list a.active {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+    .nav-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: var(--surface-alt);
+      color: var(--text);
+      flex-shrink: 0;
+    }
+    .nav-list a.active .nav-num {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text);
+      padding: 0.45rem 0.75rem;
+      border-radius: 7px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      transition: all 0.15s;
+    }
+    .btn:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .btn-primary:hover { opacity: 0.9; color: #fff; }
+
+    /* Main */
+    main.content {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      max-width: 980px;
+      padding: 2.25rem 2.5rem 4rem;
+    }
+
+    .hero {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+    }
+    .hero h2 {
+      margin: 0 0 0.5rem;
+      font-size: 1.85rem;
+      line-height: 1.25;
+    }
+    .hero p.lead {
+      font-size: 1.03rem;
+      color: var(--text-muted);
+      margin: 0 0 1.25rem;
+    }
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .pill {
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+    }
+
+    section.module {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.85rem 2rem;
+      margin-bottom: 1.75rem;
+      box-shadow: var(--shadow);
+    }
+    .module-kicker {
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+    section.module h3 {
+      margin: 0 0 0.9rem;
+      font-size: 1.4rem;
+      line-height: 1.3;
+    }
+    section.module h4 {
+      margin: 1.35rem 0 0.55rem;
+      font-size: 1.05rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .card {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.1rem;
+    }
+    .card h5 {
+      margin: 0 0 0.35rem;
+      font-size: 0.95rem;
+    }
+    .card p {
+      margin: 0;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+    .card-bad { border-left: 4px solid var(--orange); }
+    .card-good { border-left: 4px solid var(--green); }
+
+    /* Callouts */
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+      padding: 0.85rem 1rem;
+      border-radius: 0 8px 8px 0;
+      margin: 1rem 0;
+      font-size: 0.92rem;
+    }
+
+    /* Code / Prompt Blocks */
+    .prompt-box {
+      position: relative;
+      background: var(--code-bg);
+      color: var(--code-fg);
+      border-radius: 8px;
+      padding: 0.95rem 1.1rem;
+      margin: 0.85rem 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.84rem;
+      line-height: 1.5;
+      overflow-x: auto;
+    }
+    .prompt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      font-family: inherit;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #8b949e;
+    }
+    .copy-btn {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 5px;
+      padding: 0.22rem 0.55rem;
+      font-size: 0.74rem;
+      cursor: pointer;
+    }
+    .copy-btn:hover { background: var(--accent); border-color: var(--accent); }
+    .prompt-box pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* Interactive Tree Explorer */
+    .tree-explorer {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .tree-list {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.65rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .tree-item {
+      text-align: left;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text);
+      padding: 0.45rem 0.65rem;
+      border-radius: 6px;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      font-size: 0.83rem;
+      cursor: pointer;
+    }
+    .tree-item:hover, .tree-item.active {
+      background: var(--surface);
+      border-color: var(--accent);
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .tree-detail {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.15rem;
+    }
+
+    /* Before/After Diff Tabs */
+    .tab-bar {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+    }
+    .tab-btn {
+      cursor: pointer;
+      padding: 0.4rem 0.85rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text);
+      font-size: 0.84rem;
+      font-weight: 600;
+    }
+    .tab-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .diff-panel {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.15rem;
+      font-size: 0.94rem;
+    }
+    .diff-panel del {
+      background: var(--del-bg);
+      color: var(--del-fg);
+      padding: 1px 3px;
+      text-decoration: line-through;
+    }
+    .diff-panel mark {
+      background: var(--mark-bg);
+      color: var(--mark-fg);
+      padding: 1px 4px;
+      border-radius: 3px;
+    }
+
+    /* Palette swatches */
+    .swatches {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0.75rem 0;
+    }
+    .swatch {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-family: ui-monospace, Consolas, monospace;
+    }
+    .swatch-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.15);
+    }
+
+    /* Checklist */
+    .checklist-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 0.85rem;
+    }
+    .checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .checklist li label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.65rem 0.8rem;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.91rem;
+    }
+    .checklist li input[type="checkbox"] {
+      margin-top: 0.25rem;
+      width: 16px;
+      height: 16px;
+      accent-color: var(--green);
+      flex-shrink: 0;
+    }
+    .score-badge {
+      font-size: 0.86rem;
+      font-weight: 700;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    table.spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.9rem 0;
+      font-size: 0.88rem;
+    }
+    table.spec-table th, table.spec-table td {
+      border: 1px solid var(--border);
+      padding: 0.55rem 0.7rem;
+      text-align: left;
+    }
+    table.spec-table th {
+      background: var(--surface-alt);
+    }
+
+    @media (max-width: 900px) {
+      body { flex-direction: column; }
+      aside.sidebar {
+        position: static;
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      main.content {
+        margin-left: 0;
+        padding: 1.25rem 1rem 3rem;
+      }
+      .tree-explorer { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-tag">Interactive Masterclass</span>
+      <h1>AI-Augmented Q1 Scientific Production</h1>
+      <p>From raw data to verified Elsevier &amp; Q1 submissions</p>
+    </div>
+
+    <ul class="nav-list" id="navList">
+      <li><a href="#mod1" class="active"><span class="nav-num">1</span>The AI Research Workflow</a></li>
+      <li><a href="#mod2"><span class="nav-num">2</span>Repo &amp; Leakage Hygiene</a></li>
+      <li><a href="#mod3"><span class="nav-num">3</span>Anti-Hallucination Citations</a></li>
+      <li><a href="#mod4"><span class="nav-num">4</span>Q1 Writing &amp; Word Diffs</a></li>
+      <li><a href="#mod5"><span class="nav-num">5</span>Elsevier Figures &amp; QA</a></li>
+      <li><a href="#mod6"><span class="nav-num">6</span>Docs Sync &amp; Git Telemetry</a></li>
+      <li><a href="#mod7"><span class="nav-num">7</span>Prompt Playbook &amp; Checklist</a></li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <button class="btn" id="themeToggle" type="button">Toggle Dark / Light Mode</button>
+      <div style="font-size:0.76rem;color:var(--text-muted);text-align:center;">
+        100% offline &bull; Companion to <code>Scientific-Article-Model</code>
+      </div>
+    </div>
+  </aside>
+
+  <main class="content">
+    <header class="hero">
+      <span class="brand-tag">Course &amp; Operational Playbook</span>
+      <h2>Using AI Agents, Workspace Rules, and Automated QA Skills in Scientific Production</h2>
+      <p class="lead">
+        Chatting with an LLM inside a blank text box produces hallucinations, inconsistent notation, broken citations, and non-reproducible plots. Giving an AI agent a structured repository &mdash; governed by <code>GEMINI.md</code>, domain rules, and deterministic Python QA scripts &mdash; turns it into a verifiable research co-pilot.
+      </p>
+      <div class="pill-row">
+        <span class="pill">7 Interactive Modules</span>
+        <span class="pill">6 Bundled Skills</span>
+        <span class="pill">Elsevier &amp; APA 7th QA</span>
+        <span class="pill">Zero-Hallucination Citations</span>
+      </div>
+    </header>
+
+    <!-- MODULE 1 -->
+    <section class="module" id="mod1">
+      <div class="module-kicker">Module 1 &bull; Architecture Over Prompting</div>
+      <h3>Why Structured AI Workflows Outperform Ad-Hoc Chatting</h3>
+      <div class="grid-2">
+        <div class="card card-bad">
+          <h5>Ad-Hoc Chatting (Fragile)</h5>
+          <p>Model invents plausible DOIs from memory, uses inconsistent figure widths, repeats tables verbatim in prose, leaks held-out test metrics into tuning, and forgets constraints across turns.</p>
+        </div>
+        <div class="card card-good">
+          <h5>Skill-Governed Repository (Reproducible)</h5>
+          <p><code>GEMINI.md</code> + <code>.agents/rules/</code> lock statistical hygiene, <code>scientific_literature_research</code> verifies DOIs live via Crossref, and Python QA scripts fail loudly on any mismatch.</p>
+        </div>
+      </div>
+
+      <h4>End-to-End Scientific Production Pipeline</h4>
+      <svg viewBox="0 0 820 145" width="100%" aria-label="AI Scientific Pipeline Diagram" style="margin:0.5rem 0;border-radius:8px;background:var(--surface-alt);border:1px solid var(--border);">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#0072b2"/>
+          </marker>
+        </defs>
+        <g font-family="Arial, sans-serif" font-size="12" text-anchor="middle">
+          <rect x="18" y="30" width="140" height="80" rx="8" fill="#0072b2" opacity="0.14" stroke="#0072b2" stroke-width="1.5"/>
+          <text x="88" y="60" font-weight="700" fill="currentColor">1. Rules &amp; Plan</text>
+          <text x="88" y="80" font-size="10.5" fill="currentColor">GEMINI.md + /plan</text>
+
+          <line x1="158" y1="70" x2="188" y2="70" stroke="#0072b2" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <rect x="192" y="30" width="140" height="80" rx="8" fill="#009e73" opacity="0.14" stroke="#009e73" stroke-width="1.5"/>
+          <text x="262" y="60" font-weight="700" fill="currentColor">2. Phase 1-4 Code</text>
+          <text x="262" y="80" font-size="10.5" fill="currentColor">Leak-free splits &amp; EDA</text>
+
+          <line x1="332" y1="70" x2="362" y2="70" stroke="#0072b2" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <rect x="366" y="30" width="140" height="80" rx="8" fill="#e69f00" opacity="0.16" stroke="#e69f00" stroke-width="1.5"/>
+          <text x="436" y="60" font-weight="700" fill="currentColor">3. Verified Lit &amp; Plots</text>
+          <text x="436" y="80" font-size="10.5" fill="currentColor">verify_doi + elsevier</text>
+
+          <line x1="506" y1="70" x2="536" y2="70" stroke="#0072b2" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <rect x="540" y="30" width="128" height="80" rx="8" fill="#cc79a7" opacity="0.16" stroke="#cc79a7" stroke-width="1.5"/>
+          <text x="604" y="60" font-weight="700" fill="currentColor">4. Q1 Draft &amp; Diff</text>
+          <text x="604" y="80" font-size="10.5" fill="currentColor">ms_*.md + parity QA</text>
+
+          <line x1="668" y1="70" x2="696" y2="70" stroke="#0072b2" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <rect x="700" y="30" width="102" height="80" rx="8" fill="#0072b2" opacity="0.2" stroke="#0072b2" stroke-width="1.5"/>
+          <text x="751" y="60" font-weight="700" fill="currentColor">5. Release</text>
+          <text x="751" y="80" font-size="10.5" fill="currentColor">/commit v0001</text>
+        </g>
+      </svg>
+    </section>
+
+    <!-- MODULE 2 -->
+    <section class="module" id="mod2">
+      <div class="module-kicker">Module 2 &bull; Folder Architecture &amp; Data Hygiene</div>
+      <h3>Repository Anatomy &amp; Chronological 4-Phase Discipline</h3>
+      <p>Click any folder or file below to inspect its methodological purpose and how AI agents interact with it.</p>
+
+      <div class="tree-explorer">
+        <div class="tree-list" id="treeList">
+          <button class="tree-item active" data-key="gemini">GEMINI.md</button>
+          <button class="tree-item" data-key="rules">.agents/rules/ (literature, visualization, git)</button>
+          <button class="tree-item" data-key="skills">.agents/skills/ (6 QA &amp; authoring skills)</button>
+          <button class="tree-item" data-key="sections">docs/manuscript/sections/ms_*.md</button>
+          <button class="tree-item" data-key="highlighted">docs/manuscript/sections/highlighted/</button>
+          <button class="tree-item" data-key="refs">docs/references/master_literature_review.txt</button>
+          <button class="tree-item" data-key="src">src/project_pkg/ &amp; notebooks/</button>
+        </div>
+        <div class="tree-detail" id="treeDetail">
+          <h4 style="margin-top:0;">GEMINI.md &mdash; Project Constitution</h4>
+          <p>Always loaded into agent context. Defines the 4-phase research order (Data &rarr; Modeling &rarr; Inference &rarr; Analytics), forbids train/validation/test leakage, forbids hardcoding physical thresholds outside <code>.env</code>, and requires written plans before major code or manuscript edits.</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Dataset Hygiene Golden Rule:</strong> Fit scalers, imputers, and hyperparameter trials strictly on <code>train</code>; rank candidates on <code>validation</code>; touch <code>test</code> exactly once after the entire architecture is frozen.
+      </div>
+    </section>
+
+    <!-- MODULE 3 -->
+    <section class="module" id="mod3">
+      <div class="module-kicker">Module 3 &bull; Zero-Hallucination Bibliography</div>
+      <h3>Verifying Peer-Reviewed Q1 Literature via Live APIs</h3>
+      <p>LLMs frequently blend author names, years, and DOIs when asked to cite from memory. Under <code>.agents/rules/literature.md</code>, agents must verify every reference live with <code>verify_doi.py</code> (Crossref API &rarr; APA 7th) before writing a single in-text citation.</p>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span>Terminal Command &bull; Live DOI Verification</span>
+          <button class="copy-btn" data-copy="python .agents/skills/scientific_literature_research/scripts/verify_doi.py --doi 10.1016/j.jhydrol.2009.08.003">Copy</button>
+        </div>
+        <pre>python .agents/skills/scientific_literature_research/scripts/verify_doi.py --doi 10.1016/j.jhydrol.2009.08.003</pre>
+      </div>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span>Prompt Recipe &bull; Q1 Literature Discovery</span>
+          <button class="copy-btn" data-copy="Using scientific_literature_research, find 4 peer-reviewed Q1 journal articles (last 5 years) comparing tree ensembles against spatial baselines for sparse environmental networks. Verify every DOI via verify_doi.py, exclude technical reports/preprints, format in APA 7th, and append them to docs/references/master_literature_review.txt.">Copy</button>
+        </div>
+        <pre>Using scientific_literature_research, find 4 peer-reviewed Q1 journal articles (last 5 years) comparing tree ensembles against spatial baselines for sparse environmental networks. Verify every DOI via verify_doi.py, exclude technical reports/preprints, format in APA 7th, and append them to docs/references/master_literature_review.txt.</pre>
+      </div>
+    </section>
+
+    <!-- MODULE 4 -->
+    <section class="module" id="mod4">
+      <div class="module-kicker">Module 4 &bull; Q1 Rhetoric &amp; Bidirectional Word Sync</div>
+      <h3>Q1 Manuscript Drafting, Condensation &amp; Red/Yellow Diff Guides</h3>
+      <p>Keep canonical sections (<code>ms_*.md</code>) clean, formula-free in running prose, and 1-to-1 matched with end-of-section DOI reference blocks. Maintain parallel <code>*_HIGHLIGHTED.md</code> guides so human co-authors can apply exact red deletions and yellow insertions inside Microsoft Word.</p>
+
+      <h4>Interactive Example: Transforming a Draft into Q1 Prose</h4>
+      <div class="tab-bar" id="diffTabs">
+        <button class="tab-btn active" data-diff="raw">1. Wordy Original Draft</button>
+        <button class="tab-btn" data-diff="markup">2. Red / Yellow Word Diff</button>
+        <button class="tab-btn" data-diff="final">3. Tightened Q1 Prose</button>
+      </div>
+      <div class="diff-panel" id="diffPanel"></div>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span>QA Gate &bull; Run Strict Manuscript Validator</span>
+          <button class="copy-btn" data-copy="python .agents/skills/manuscript_qa/scripts/validate_manuscript.py --strict&#10;python .agents/skills/q1-article/scripts/manuscript_metrics.py docs/manuscript/sections">Copy</button>
+        </div>
+        <pre>python .agents/skills/manuscript_qa/scripts/validate_manuscript.py --strict
+python .agents/skills/q1-article/scripts/manuscript_metrics.py docs/manuscript/sections</pre>
+      </div>
+    </section>
+
+    <!-- MODULE 5 -->
+    <section class="module" id="mod5">
+      <div class="module-kicker">Module 5 &bull; Elsevier Electronic Artwork Specs</div>
+      <h3>Designing &amp; Auditing Publication-Grade Scientific Figures</h3>
+      <p>Import <code>src/project_pkg/utils/plots.py</code> (<code>apply_elsevier_style()</code>, <code>figsize_mm()</code>, <code>save_publication_figure()</code>) so every figure exports cleanly at exact journal widths with zero global titles and embedded fonts.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr><th>Specification</th><th>Elsevier Target</th><th>Automated Check (<code>audit_figures.py</code>)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Column widths</td><td>90 mm (single), 140 mm (1.5), 190 mm (double)</td><td>Flags deviation &gt; 6 mm or height &gt; 240 mm</td></tr>
+          <tr><td>Raster resolution</td><td>600 DPI TIFF (LZW) / 300 DPI PNG preview</td><td>Verifies DPI metadata &amp; LZW compression</td></tr>
+          <tr><td>Color mode &amp; fonts</td><td>RGB (Okabe-Ito), Arial/Helvetica 7.5-9.5 pt, <code>pdf.fonttype = 42</code></td><td>Flags RGBA alpha channels &amp; PDF Type 3 bitmap fonts</td></tr>
+        </tbody>
+      </table>
+
+      <div class="swatches" aria-label="Okabe-Ito Colorblind-Safe Palette">
+        <div class="swatch"><span class="swatch-dot" style="background:#0072B2"></span>#0072B2 Blue</div>
+        <div class="swatch"><span class="swatch-dot" style="background:#E69F00"></span>#E69F00 Orange</div>
+        <div class="swatch"><span class="swatch-dot" style="background:#009E73"></span>#009E73 Green</div>
+        <div class="swatch"><span class="swatch-dot" style="background:#D55E00"></span>#D55E00 Vermillion</div>
+        <div class="swatch"><span class="swatch-dot" style="background:#CC79A7"></span>#CC79A7 Purple</div>
+        <div class="swatch"><span class="swatch-dot" style="background:#56B4E9"></span>#56B4E9 Sky Blue</div>
+      </div>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span>Audit Command &bull; Check Exported Figures</span>
+          <button class="copy-btn" data-copy="python .agents/skills/elsevier-figures/scripts/audit_figures.py outputs/figures/manuscript --strict">Copy</button>
+        </div>
+        <pre>python .agents/skills/elsevier-figures/scripts/audit_figures.py outputs/figures/manuscript --strict</pre>
+      </div>
+    </section>
+
+    <!-- MODULE 6 -->
+    <section class="module" id="mod6">
+      <div class="module-kicker">Module 6 &bull; Reproducible Audit Trails</div>
+      <h3>Documentation Synchronization &amp; Verbose Git Telemetry</h3>
+      <p>Scientific code evolves rapidly. Running <code>/update-documentation</code> and <code>/commit</code> ensures notebook summaries, compiled code snapshots, package lists, and manuscript diff guides stay synchronized at every milestone.</p>
+      <div class="grid-2">
+        <div class="card">
+          <h5><code>/update-documentation</code></h5>
+          <p>Runs <code>audit_docs_sync.py --compile-nbs</code> to verify <code>requirements.txt == README.md</code>, check every notebook has a <code>docs/summary/*_summary.txt</code>, and pass strict manuscript QA.</p>
+        </div>
+        <div class="card">
+          <h5><code>/commit</code> (<code>v0001 - &lt;summary&gt;</code>)</h5>
+          <p>Runs pre-commit manuscript QA, writes a verbose multi-bullet commit, then regenerates <code>log_github_lastrun.csv</code> and <code>.docx</code> via <code>sync_telemetry.py</code> as <code>v0002</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULE 7 -->
+    <section class="module" id="mod7">
+      <div class="module-kicker">Module 7 &bull; Ready-to-Use Prompts &amp; Interactive Gate</div>
+      <h3>Hands-On Prompt Playbook &amp; Q1 Submission Checklist</h3>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span>Prompt 1 &bull; Plan a New Modeling Experiment Safely</span>
+          <button class="copy-btn" data-copy="/plan Inspect GEMINI.md and Phase 2 notebooks. Design a new baseline comparison strictly using train/validation splits without touching held-out test data. Wait for my approval before writing code.">Copy</button>
+        </div>
+        <pre>/plan Inspect GEMINI.md and Phase 2 notebooks. Design a new baseline comparison strictly using train/validation splits without touching held-out test data. Wait for my approval before writing code.</pre>
+      </div>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span>Prompt 2 &bull; Tighten a Verbose Section &amp; Sync Word Diffs</span>
+          <button class="copy-btn" data-copy="Use q1-article and manuscript_qa on docs/manuscript/sections/ms_3_Results_and_Discussion.md: cut narrative table repetition by 20%, keep every exact statistic, maintain 1-to-1 verified DOI references, update highlighted/ms_3_Results_and_Discussion_HIGHLIGHTED.md, and pass validate_manuscript.py --strict.">Copy</button>
+        </div>
+        <pre>Use q1-article and manuscript_qa on docs/manuscript/sections/ms_3_Results_and_Discussion.md: cut narrative table repetition by 20%, keep every exact statistic, maintain 1-to-1 verified DOI references, update highlighted/ms_3_Results_and_Discussion_HIGHLIGHTED.md, and pass validate_manuscript.py --strict.</pre>
+      </div>
+
+      <div class="checklist-header" style="margin-top:1.5rem;">
+        <div>
+          <h4 style="margin:0;">Interactive Pre-Submission Readiness Checklist</h4>
+          <span style="font-size:0.82rem;color:var(--text-muted);">Saved automatically in your browser</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.6rem;">
+          <span class="score-badge" id="scoreBadge">0 / 7 Complete (0%)</span>
+          <button class="btn" id="resetChecklist" type="button">Reset</button>
+        </div>
+      </div>
+
+      <ul class="checklist" id="checklist">
+        <li><label><input type="checkbox" data-id="c1"><span><strong>1. Zero Data Leakage:</strong> Preprocessing, scaling, and Optuna/CV tuning ran strictly on development partitions; test set evaluated once.</span></label></li>
+        <li><label><input type="checkbox" data-id="c2"><span><strong>2. Live-Verified DOIs:</strong> Every citation passed <code>verify_doi.py</code> or Crossref/OpenAlex lookup and uses Q1 peer-reviewed sources first.</span></label></li>
+        <li><label><input type="checkbox" data-id="c3"><span><strong>3. Word Limits Met:</strong> Abstract &le; 250 words, 3-5 Highlights &le; 85 characters, figure captions &le; 45 words (<code>manuscript_metrics.py</code>).</span></label></li>
+        <li><label><input type="checkbox" data-id="c4"><span><strong>4. Strict Parity Passed:</strong> <code>validate_manuscript.py --strict</code> exits 0 with zero citation, link, dash, or Word-diff parity errors.</span></label></li>
+        <li><label><input type="checkbox" data-id="c5"><span><strong>5. Elsevier Figure Audit Passed:</strong> <code>audit_figures.py --strict</code> confirms 90/140/190 mm widths, 600 DPI RGB LZW TIFF, and vector PDF without Type 3 fonts.</span></label></li>
+        <li><label><input type="checkbox" data-id="c6"><span><strong>6. Visual Inspection Done:</strong> Every rendered figure inspected visually for clipped tick labels, external legends, and readable 8-9 pt typography.</span></label></li>
+        <li><label><input type="checkbox" data-id="c7"><span><strong>7. Documentation &amp; Telemetry Synced:</strong> <code>audit_docs_sync.py --compile-nbs</code> passed and sequential <code>/commit</code> telemetry is updated.</span></label></li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      // Theme toggle
+      const root = document.documentElement;
+      const savedTheme = localStorage.getItem("sam_theme") || "light";
+      root.setAttribute("data-theme", savedTheme);
+      document.getElementById("themeToggle").addEventListener("click", () => {
+        const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        localStorage.setItem("sam_theme", next);
+      });
+
+      // Scroll progress & active nav highlight
+      const progressBar = document.getElementById("progressBar");
+      const navLinks = Array.from(document.querySelectorAll("#navList a"));
+      const sections = navLinks.map(a => document.querySelector(a.getAttribute("href")));
+
+      function onScroll() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0;
+        progressBar.style.width = pct.toFixed(1) + "%";
+
+        let activeIdx = 0;
+        sections.forEach((sec, idx) => {
+          if (sec && sec.getBoundingClientRect().top <= 140) activeIdx = idx;
+        });
+        navLinks.forEach((a, idx) => a.classList.toggle("active", idx === activeIdx));
+      }
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+
+      // Interactive File Tree Explorer
+      const treeData = {
+        gemini: {
+          title: "GEMINI.md — Project Constitution",
+          desc: "Loaded automatically by AI agents. Defines the 4-phase research order (Data → Modeling → Inference → Analytics), forbids train/validation/test leakage, forbids hardcoding physical thresholds outside .env, and enforces written plans before edits."
+        },
+        rules: {
+          title: ".agents/rules/ — Guardrails That Never Drift",
+          desc: "Three focused markdown policies: literature.md (live DOI verification, Q1 priority, APA sorting), visualization.md (90/140/190 mm Elsevier widths, no global titles, 600 DPI RGB LZW TIFF), and git_workflow.md (sequential v0001 verbose commits + telemetry)."
+        },
+        skills: {
+          title: ".agents/skills/ — 6 Deterministic Skills + Python QA",
+          desc: "Bundles manuscript_qa (validate_manuscript.py), q1-article (manuscript_metrics.py), elsevier-figures (audit_figures.py), scientific_literature_research (verify_doi.py), commit (sync_telemetry.py), and update-documentation (audit_docs_sync.py)."
+        },
+        sections: {
+          title: "docs/manuscript/sections/ms_*.md — Canonical Manuscript",
+          desc: "Modular section files (Title/Abstract, Introduction, Methods, Results & Discussion, Conclusions, Supplementary). Every file ends with '---' and a 1-to-1 verified DOI bibliography."
+        },
+        highlighted: {
+          title: "docs/manuscript/sections/highlighted/*_HIGHLIGHTED.md",
+          desc: "Human-friendly Word revision guides showing red strikethrough deletions (<del>) and yellow highlight insertions (<mark>). Stripping <del> must match canonical ms_*.md character-for-character."
+        },
+        refs: {
+          title: "docs/references/master_literature_review.txt",
+          desc: "Single source of truth for verified Q1 peer-reviewed references with authenticated Crossref/OpenAlex DOIs formatted in APA 7th."
+        },
+        src: {
+          title: "src/project_pkg/ & notebooks/",
+          desc: "Reusable Python utilities (such as Elsevier plots.py presets) paired with chronologically numbered Phase 0–4 Jupyter notebooks sharing the identical local/Colab bootstrap cell."
+        }
+      };
+
+      const treeButtons = Array.from(document.querySelectorAll("#treeList .tree-item"));
+      const treeDetail = document.getElementById("treeDetail");
+      treeButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          treeButtons.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          const item = treeData[btn.dataset.key];
+          treeDetail.innerHTML = `<h4 style="margin-top:0;">${item.title}</h4><p>${item.desc}</p>`;
+        });
+      });
+
+      // Before / After Q1 Diff Viewer
+      const diffViews = {
+        raw: `In the context of this study, it should be noted that Table 2 shows XGBRegressor obtained MAE = 1.42 mm (vs. 1.62 mm for IDW), while GradientBoostingRegressor obtained 1.44 mm and RandomForestRegressor got 1.51 mm across n_months >= 3 stations, which improves performance by 12.4% (Dubreuil et al., 2018, 2017).`,
+        markup: `<del>In the context of this study, it should be noted that Table 2 shows XGBRegressor obtained MAE = 1.42 mm (vs. 1.62 mm for IDW), while GradientBoostingRegressor obtained 1.44 mm and RandomForestRegressor got 1.51 mm across n_months >= 3 stations, which improves performance by 12.4%</del> <mark>The leading ensemble (XGB) cuts validation MAE by 12.4% relative to the IDW baseline across retained gauges (Table 2), outperforming GBR and RF</mark> (<mark>Dubreuil et al., 2017, 2018</mark><del>Dubreuil et al., 2018, 2017</del>).`,
+        final: `The leading ensemble (XGB) cuts validation MAE by 12.4% relative to the IDW baseline across retained gauges (Table 2), outperforming GBR and RF (Dubreuil et al., 2017, 2018).`
+      };
+      const diffPanel = document.getElementById("diffPanel");
+      const diffTabs = Array.from(document.querySelectorAll("#diffTabs .tab-btn"));
+      function setDiff(mode) {
+        diffTabs.forEach(t => t.classList.toggle("active", t.dataset.diff === mode));
+        diffPanel.innerHTML = `<p style="margin:0;">${diffViews[mode]}</p>`;
+      }
+      diffTabs.forEach(t => t.addEventListener("click", () => setDiff(t.dataset.diff)));
+      setDiff("raw");
+
+      // Copy buttons
+      document.querySelectorAll(".copy-btn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(btn.dataset.copy);
+            const orig = btn.textContent;
+            btn.textContent = "Copied!";
+            setTimeout(() => { btn.textContent = orig; }, 1400);
+          } catch {
+            btn.textContent = "Copy manually";
+          }
+        });
+      });
+
+      // Interactive Checklist with localStorage
+      const boxes = Array.from(document.querySelectorAll('#checklist input[type="checkbox"]'));
+      const scoreBadge = document.getElementById("scoreBadge");
+      function updateScore() {
+        const checked = boxes.filter(b => b.checked).length;
+        const pct = Math.round((checked / boxes.length) * 100);
+        scoreBadge.textContent = `${checked} / ${boxes.length} Complete (${pct}%)`;
+        const state = {};
+        boxes.forEach(b => { state[b.dataset.id] = b.checked; });
+        localStorage.setItem("sam_checklist", JSON.stringify(state));
+      }
+      try {
+        const saved = JSON.parse(localStorage.getItem("sam_checklist") || "{}");
+        boxes.forEach(b => { b.checked = Boolean(saved[b.dataset.id]); });
+      } catch {}
+      boxes.forEach(b => b.addEventListener("change", updateScore));
+      document.getElementById("resetChecklist").addEventListener("click", () => {
+        boxes.forEach(b => { b.checked = false; });
+        updateScore();
+      });
+      updateScore();
+    })();
+  </script>
+</body>
+</html>

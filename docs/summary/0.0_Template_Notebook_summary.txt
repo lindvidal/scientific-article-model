@@ -1,0 +1,5 @@
+Notebook: 0.0_Template_Notebook.ipynb
+Phase: 0 (Template / Starter)
+Purpose: Demonstrates the canonical local/Colab environment bootstrap and Elsevier-compliant Q1 figure export using src/project_pkg/utils/plots.py.
+Inputs: Synthetic demonstration data (or processed parquet/CSV tables).
+Outputs: Sample 600 DPI TIFF, vector PDF, and 300 DPI PNG preview under outputs/figures/manuscript/.

@@ -1,0 +1,10 @@
+================================================================================
+MASTER LITERATURE REVIEW — VERIFIED Q1 PEER-REVIEWED REGISTRY
+================================================================================
+Every citation added here MUST be verified live using verify_doi.py (Crossref API)
+or OpenAlex before appearing in any manuscript section.
+
+[METHODOLOGY & NON-PARAMETRIC STATISTICS]
+1. Demšar, J. (2006). Statistical comparisons of classifiers over multiple data sets. Journal of Machine Learning Research, 7, 1-30. https://jmlr.org/papers/v7/demsar06a.html
+2. García, S., Fernández, A., Luengo, J., & Herrera, F. (2010). Advanced nonparametric tests for multiple comparisons in the design of experiments in computational intelligence and data mining. Information Sciences, 180(10), 2044-2064. https://doi.org/10.1016/j.ins.2009.12.010
+3. Gupta, H. V., Kling, H., Yilmaz, K. K., & Martinez, G. F. (2009). Decomposition of the mean squared error and NSE performance criteria: Implications for improving hydrological modelling. Journal of Hydrology, 377(1-2), 80-91. https://doi.org/10.1016/j.jhydrol.2009.08.003

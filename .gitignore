@@ -1,0 +1,38 @@
+# Python & Environments
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Secrets & Local Config
+.env
+
+# Jupyter Checkpoints
+.ipynb_checkpoints/
+
+# Heavy Data, Models & Intermediate Outputs
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+models/
+results/
+*.parquet
+*.h5
+*.hdf5
+*.pkl
+*.joblib
+
+# OS & Office Temp Files
+.DS_Store
+Thumbs.db
+~$*.docx
+~$*.xlsx
+*.aux
+*.log
+*.bbl
+*.blg
+*.synctex.gz
